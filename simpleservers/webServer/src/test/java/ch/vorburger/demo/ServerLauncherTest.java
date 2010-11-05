@@ -28,10 +28,11 @@ public class ServerLauncherTest {
 		serverLauncher.startServer();
 
 		assertThat(fetch("index.txt"), containsString("Static Hello World"));
-		assertThat(fetch("secondo.txt"), containsString("Another static Hello World"));
 		assertThat(fetch("index.jsp"), containsString("Bla"));
 		assertThat(fetch("index.jsp"), containsString("something"));
 		assertThat(fetch("index.jsp"), containsString("somethingElse"));
+		assertThat(fetch("SomeServlet"), containsString("SomeServlet!"));
+		assertThat(fetch("secondo.txt"), containsString("Another static Hello World"));
 		assertThat(fetch("secondo.jsp"), containsString("somethingElse"));
 		serverLauncher.stopServer();
 	}

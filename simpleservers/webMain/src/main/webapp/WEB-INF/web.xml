@@ -774,4 +774,17 @@ standard deployment descriptor.
 -->
 <web-app xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <javaee:display-name>Archetype Created Web Application</javaee:display-name>
+  
+  <servlet>
+    <javaee:description></javaee:description>
+    <javaee:display-name>SomeServlet</javaee:display-name>
+    <servlet-name>SomeServlet</servlet-name>
+    <servlet-class>ch.vorburger.demo.core.SomeServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SomeServlet</servlet-name>
+    <url-pattern>/SomeServlet</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

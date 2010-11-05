@@ -1,4 +1,4 @@
-package pp;
+package ch.vorburger.demo.core;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;

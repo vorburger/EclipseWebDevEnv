@@ -1,4 +1,4 @@
-package p;
+package ch.vorburger.demo.ext;
 
 import org.apache.log4j.Logger;
 
