@@ -20,15 +20,19 @@
 package ch.vorburger.demo;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.junit.runner.notification.StoppedByUserException;
 
 /**
  * Sample Jetty-based all-classpath web application starter.
@@ -40,9 +44,10 @@ import org.junit.runner.notification.StoppedByUserException;
 public class ServerLauncher {
 	
 	private static final String WEB_INF_WEB_XML = "WEB-INF/web.xml";
+	private static final String WEB_TAG_FILE = ".web";
 
-	private int port;
-	private String context;
+	private final int port;
+	private final String context;
 	
 	private Server server;
 	private WebAppContext webAppContext;
@@ -54,14 +59,17 @@ public class ServerLauncher {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		ServerLauncher serverLauncher = new ServerLauncher();
+		final ServerLauncher serverLauncher = new ServerLauncher();
 		serverLauncher.startServer();
 	}
 
 	public void startServer() throws Exception {
+		if (server != null) {
+			throw new IllegalStateException("HTTP Server already running, stop it first before starting it again");
+		}
 		server = new Server();
 
-		SocketConnector connector = new SocketConnector();
+		final SocketConnector connector = new SocketConnector();
 		connector.setPort(port);
 		
 		connector.setMaxIdleTime(1000 * 60 * 60);
@@ -69,15 +77,10 @@ public class ServerLauncher {
 		server.setConnectors(new Connector[] { connector });
 		
 		webAppContext = new WebAppContext(null, "/" + context);
-		URL webXmlUrl = webXmlUrl();
-		String webXmlUrlString = webXmlUrl.toExternalForm();
-		String baseURL = webXmlUrlString.substring(0, webXmlUrlString.length() - WEB_INF_WEB_XML.length());
-		Resource base = Resource.newResource(baseURL);
-		// TODO ResourceCollection !!!
-		webAppContext.setBaseResource(base);
+		webAppContext.setBaseResource(baseResources());
 		webAppContext.setLogUrlOnStart(true);
 		webAppContext.setServer(server);
-		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WUI couldn't start, don't swallow, but propagate!
+		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WAR couldn't start, don't swallow, but propagate!
 		server.setHandler(webAppContext);
 		
 		// No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
@@ -104,27 +107,54 @@ public class ServerLauncher {
 
 	public void stopServer() throws Exception {
 		webAppContext.stop();
+		webAppContext = null;
 		server.stop();
+		server = null;
 	}
 	
+	
+	private ResourceCollection baseResources() throws IOException, MalformedURLException {
+		final List<Resource> webResourceModules = new LinkedList<Resource>();
+		webResourceModules.add(chop(webXmlUrl(), WEB_INF_WEB_XML));
+		final Collection<URL> webTagURLs = getResources(WEB_TAG_FILE);
+		for (final URL webTagFileURL : webTagURLs) {
+			webResourceModules.add(chop(webTagFileURL, WEB_TAG_FILE));
+		}
+		return new ResourceCollection(webResourceModules.toArray(new Resource[webResourceModules.size()]));
+	}
+
+	private Resource chop(final URL baseURL, String toChop) throws MalformedURLException, IOException {
+		String base = baseURL.toExternalForm();
+		if (!base.endsWith(toChop)) {
+			throw new IllegalArgumentException(base + " does not endWith " + toChop);
+		}
+		base = base.substring(0, base.length() - toChop.length());
+		return Resource.newResource(base);
+	}
+
 	/**
 	 * Finds the web.xml
 	 * 
 	 * @return URL of the web.xml on the Classpath
 	 */
 	private static URL webXmlUrl() throws IOException {
-		ClassLoader cl = ServerLauncher.class.getClassLoader(); // OR Thread.currentThread().getContextClassLoader();
-		Enumeration<URL> urls = cl.getResources(WEB_INF_WEB_XML);
-		
-		if (!urls.hasMoreElements()) {
+		final Collection<URL> urls = getResources(WEB_INF_WEB_XML);
+		if (urls.isEmpty()) {
 			throw new IllegalStateException(WEB_INF_WEB_XML + " not found on the classpath");
 		}
-	
-		URL url = urls.nextElement();
-		if (urls.hasMoreElements()) {
+		if (urls.size() !=1) {
 			throw new IllegalStateException(WEB_INF_WEB_XML + " was found more than once on the classpath");
 		}
-		
-		return url;
+		return urls.iterator().next();
+	}
+
+	private static Collection<URL> getResources(String resource) throws IOException {
+		final ClassLoader cl = ServerLauncher.class.getClassLoader(); // OR Thread.currentThread().getContextClassLoader();
+		final Enumeration<URL> urls = cl.getResources(resource);
+		final LinkedList<URL> list = new LinkedList<URL>();
+		while (urls.hasMoreElements()) {
+			list.add(urls.nextElement());
+		}
+		return list;
 	}
 }
