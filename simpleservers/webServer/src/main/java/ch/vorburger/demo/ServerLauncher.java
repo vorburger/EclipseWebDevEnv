@@ -26,7 +26,9 @@ import java.util.Enumeration;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.junit.runner.notification.StoppedByUserException;
 
 /**
  * Sample Jetty-based all-classpath web application starter.
@@ -66,7 +68,13 @@ public class ServerLauncher {
 		connector.setSoLingerTime(-1);
 		server.setConnectors(new Connector[] { connector });
 		
-		webAppContext = new WebAppContext(webXmlUrl(), "/" + context);
+		webAppContext = new WebAppContext(null, "/" + context);
+		URL webXmlUrl = webXmlUrl();
+		String webXmlUrlString = webXmlUrl.toExternalForm();
+		String baseURL = webXmlUrlString.substring(0, webXmlUrlString.length() - WEB_INF_WEB_XML.length());
+		Resource base = Resource.newResource(baseURL);
+		// TODO ResourceCollection !!!
+		webAppContext.setBaseResource(base);
 		webAppContext.setLogUrlOnStart(true);
 		webAppContext.setServer(server);
 		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WUI couldn't start, don't swallow, but propagate!
@@ -94,24 +102,29 @@ public class ServerLauncher {
 		}
 	}
 
+	public void stopServer() throws Exception {
+		webAppContext.stop();
+		server.stop();
+	}
+	
 	/**
 	 * Finds the web.xml
 	 * 
 	 * @return URL of the web.xml on the Classpath
 	 */
-	private static String webXmlUrl() throws IOException {
+	private static URL webXmlUrl() throws IOException {
 		ClassLoader cl = ServerLauncher.class.getClassLoader(); // OR Thread.currentThread().getContextClassLoader();
-		Enumeration urls = cl.getResources(WEB_INF_WEB_XML);
+		Enumeration<URL> urls = cl.getResources(WEB_INF_WEB_XML);
 		
 		if (!urls.hasMoreElements()) {
 			throw new IllegalStateException(WEB_INF_WEB_XML + " not found on the classpath");
 		}
 	
-		URL url = (URL) urls.nextElement();
+		URL url = urls.nextElement();
 		if (urls.hasMoreElements()) {
 			throw new IllegalStateException(WEB_INF_WEB_XML + " was found more than once on the classpath");
 		}
 		
-		return url.toExternalForm();
+		return url;
 	}
 }

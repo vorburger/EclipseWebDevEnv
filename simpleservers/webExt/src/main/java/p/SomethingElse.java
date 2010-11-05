@@ -8,6 +8,6 @@ public class SomethingElse {
 
 	public static String message() {
 		LOGGER.info("Bonjour");
-		return "Hallo zusammen";
+		return "somethingElse, hallo";
 	}
 }

@@ -14,6 +14,6 @@ public class Something {
 	public static String message() {
 		LOGGER.info("Salut");
 		// LOGGER.info(SomethingElse.message());
-		return "Hello World";
+		return "something";
 	}
 }

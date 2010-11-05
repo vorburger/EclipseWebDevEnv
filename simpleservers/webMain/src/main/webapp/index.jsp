@@ -1,3 +1,4 @@
+<%@page import="p.SomethingElse"%>
 <%@page import="pp.Something"%>
 <html>
 <body>
@@ -5,7 +6,7 @@
 
 Bla, <%= Something.message() %>.
 
-<p><%= "Nothing" %> /* SomethingElse.message() */.
+<p><%= SomethingElse.message() %>
 
 </body>
 </html>
