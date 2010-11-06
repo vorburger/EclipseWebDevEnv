@@ -39,6 +39,10 @@
 		</dependency>
 	</dependencies>
 	
+	<organization>
+		<name>Michael Vorburger</name>
+		<url>http;//www.vorburger.ch</url>
+	</organization>
 	<build>
 		<finalName>web-ext</finalName>
 	</build>
