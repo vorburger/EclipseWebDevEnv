@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ch.vorburger.modudemo</groupId>
+	<artifactId>modudemo-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>ch.vorburger.modudemo.testutils/pom.xml</module>
+		<module>ch.vorburger.modudemo.core/pom.xml</module>
+		<module>ch.vorburger.modudemo.core-ui/pom.xml</module>
+		<module>ch.vorburger.modudemo.ext1/pom.xml</module>
+	</modules>
+
+	<organization>
+		<name>Michael Vorburger</name>
+		<url>http://www.vorburger.ch</url>
+	</organization>
+
+	<build>
+		<finalName>web</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.maven.ide.eclipse</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>0.9.9-SNAPSHOT</version>
+				<configuration></configuration>
+			</plugin>
+		</plugins>
+		<testResources>
+			<testResource>
+				<directory>src/main/webapp</directory>
+			</testResource>
+		</testResources>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- @see https://docs.sonatype.org/pages/viewpage.action?pageId=2949459 
+				Simulating "java-only" lifecycle mapping with m2e 0.9.9.200909092308 Also 
+				https://docs.sonatype.org/display/M2ECLIPSE/Customizable+build+lifecycle+mapping+for+m2e+extensions+developers 
+				Also https://issues.sonatype.org/browse/MNGECLIPSE-2209 Also https://docs.sonatype.org/display/M2ECLIPSE/Maven+build+lifecycle 
+				Also http://svn.apache.org/repos/asf/maven/maven-3/trunk/pom.xml as an example 
+				Also https://issues.sonatype.org/browse/MNGECLIPSE-2252 -->
+			<id>m2e</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.maven.ide.eclipse</groupId>
+						<artifactId>lifecycle-mapping</artifactId>
+						<version>0.10.0</version>
+						<configuration>
+							<mappingId>customizable</mappingId>
+							<configurators>
+								<configurator id='org.maven.ide.eclipse.jdt.javaConfigurator' />
+							</configurators>
+							<!-- Actually, no thank you very much, do not copy resources for me! 
+								(It slows down and doesn't even work well anyway...) <mojoExecutions> <mojoExecution>org.apache.maven.plugins:maven-resources-plugin::</mojoExecution> 
+								</mojoExecutions> -->
+						</configuration>
+					</plugin>
+				</plugins>
+				<pluginManagement>
+					<plugins>
+						<!-- Actually if we don't do <mojoExecution>org.apache.maven.plugins:maven-resources-plugin::</mojoExecution> 
+							above, then we also don't really have to fix the maven-resources-plugin version 
+							here... <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
+							<version>2.4</version> </plugin> -->
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<name>oss.sonatype.org</name>
+			<url>http://oss.sonatype.org/content/groups/jetty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+</project>

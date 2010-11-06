@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ch.vorburger.demo</groupId>
+	<artifactId>webTestUtils</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<artifactId>modudemo-parent</artifactId>
+		<groupId>ch.vorburger.modudemo</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../ch.vorburger.modudemo/pom.xml</relativePath>
+	</parent>
+
+	<!-- NOTE that the dependencies of this module are intentionally NOT
+		scope test, but runtime (default).  That's because this module is a
+		test framework, which HAS to export it's own dependencies to its users.
+		The dependency FROM a using module TO this test framework module
+		has to use <scope>test</scope> though, to avoid inclusion in built artifacts. -->
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<!-- NOTE: To avoid conflict with hamcrest, JUnit (no!)-DEP must be used -->
+			<artifactId>junit-dep</artifactId>
+			<version>4.8.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<!-- Hamcrest 1.2 is out, but still not in central; @see -->
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
+
+</project>
