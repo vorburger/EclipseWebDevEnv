@@ -26,15 +26,23 @@
 	<build>
 		<directory>${basedir}/${varying.target.dir}</directory>
 
-		<!-- This is required so that *WebTest JUnit have web artefacts on the 
+		<!-- Treating src/main/webapp like normal resources, for now.
+			 ToBeClarified; if no WAR is actually produced, then webapp might as well just go into src/main/resources  -->
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+			</resource>
+		</resources>
+		<!-- TODO - remove? This is required so that *WebTest JUnit have web artefacts on the 
 			classpath, for the classpath-based in-process Jetty for the tests.
 			If no WAR is actually produced, and src/main/webapp goes into 
-			src/main/resources, then this would not be needed. -->
+			src/main/resources, then this would not be needed.
 		<testResources>
 			<testResource>
-				<directory>src/main/webapp</directory>
+				
 			</testResource>
 		</testResources>
+		 -->
 
 		<plugins>
 			<plugin>

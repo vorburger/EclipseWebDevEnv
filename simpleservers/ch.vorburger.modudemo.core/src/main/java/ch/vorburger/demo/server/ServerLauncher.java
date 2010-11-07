@@ -143,7 +143,7 @@ public class ServerLauncher {
 			throw new IllegalStateException(WEB_INF_WEB_XML + " not found on the classpath");
 		}
 		if (urls.size() !=1) {
-			throw new IllegalStateException(WEB_INF_WEB_XML + " was found more than once on the classpath");
+			throw new IllegalStateException(WEB_INF_WEB_XML + " was found more than once on the classpath: " + urls.toString());
 		}
 		return urls.iterator().next();
 	}
