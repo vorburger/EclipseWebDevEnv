@@ -57,11 +57,7 @@ public class ServerLauncher {
 		this.port = 8080;
 		this.context = "theapp";
 	}
-	
-	public static void main(String[] args) throws Exception {
-		final ServerLauncher serverLauncher = new ServerLauncher();
-		serverLauncher.startServer();
-	}
+
 
 	public void startServer() throws Exception {
 		if (server != null) {
