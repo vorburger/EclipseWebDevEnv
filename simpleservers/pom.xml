@@ -18,8 +18,23 @@
 		<url>http://www.vorburger.ch</url>
 	</organization>
 
+	<properties>
+		<!-- See pom.xml.readme.txt; by default, build dir is CLI Maven's 'target' directory -->
+		<varying.target.dir>target</varying.target.dir>
+	</properties>
+
 	<build>
-		<finalName>web</finalName>
+		<directory>${basedir}/${varying.target.dir}</directory>
+
+		<!-- This is required so that *WebTest JUnit have web artefacts on the 
+			classpath, for the classpath-based in-process Jetty for the tests.
+			If no WAR is actually produced, and src/main/webapp goes into 
+			src/main/resources, then this would not be needed. -->
+		<testResources>
+			<testResource>
+				<directory>src/main/webapp</directory>
+			</testResource>
+		</testResources>
 
 		<plugins>
 			<plugin>
@@ -30,31 +45,33 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.maven.ide.eclipse</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>0.9.9-SNAPSHOT</version>
-				<configuration></configuration>
-			</plugin>
 		</plugins>
-		<testResources>
-			<testResource>
-				<directory>src/main/webapp</directory>
-			</testResource>
-		</testResources>
 	</build>
 
 	<profiles>
 		<profile>
-			<!-- @see https://docs.sonatype.org/pages/viewpage.action?pageId=2949459 
-				Simulating "java-only" lifecycle mapping with m2e 0.9.9.200909092308 Also 
-				https://docs.sonatype.org/display/M2ECLIPSE/Customizable+build+lifecycle+mapping+for+m2e+extensions+developers 
-				Also https://issues.sonatype.org/browse/MNGECLIPSE-2209 Also https://docs.sonatype.org/display/M2ECLIPSE/Maven+build+lifecycle 
-				Also http://svn.apache.org/repos/asf/maven/maven-3/trunk/pom.xml as an example 
-				Also https://issues.sonatype.org/browse/MNGECLIPSE-2252 -->
+			<id>eclipse-folders</id>
+			<activation>
+				<property>
+					<!-- This property is automatically when running under m2e (no need 
+						for Project Properties > Maven > Active Maven Profiles -->
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- See pom.xml.readme.txt; override in case we're running inside Eclipse. This directory HAS 
+					TO MATCH what is in an Eclipse project's .classpath -->
+				<varying.target.dir>target-eclipse</varying.target.dir>
+			</properties>
+		</profile>
+
+		<profile>
+			<!-- See pom.xml.readme.txt for what this is all about... -->
 			<id>m2e</id>
 			<activation>
 				<property>
+					<!-- This property is automatically when running under m2e (no need 
+						for Project Properties > Maven > Active Maven Profiles -->
 					<name>m2e.version</name>
 				</property>
 			</activation>
