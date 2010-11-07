@@ -4,7 +4,6 @@
 	
 	<groupId>ch.vorburger.demo</groupId>
 	<artifactId>webExt</artifactId>
-	<!-- TODO <packaging>war</packaging>, how - without getting m2e all confused? Keep jar, but use assembly to build war anyways? -->
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<parent>

@@ -32,7 +32,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.webapp.MetaInfConfiguration;
+import org.eclipse.jetty.webapp.WebInfConfiguration;
 
 /**
  * Sample Jetty-based all-classpath web application starter.
@@ -50,7 +51,7 @@ public class ServerLauncher {
 	private final String context;
 	
 	private Server server;
-	private WebAppContext webAppContext;
+	private WebContextWithExtraConfigurations webAppContext;
 
 	
 	public ServerLauncher() {
@@ -72,18 +73,25 @@ public class ServerLauncher {
 		connector.setSoLingerTime(-1);
 		server.setConnectors(new Connector[] { connector });
 		
-		webAppContext = new WebAppContext(null, "/" + context);
+		webAppContext = new WebContextWithExtraConfigurations(null, "/" + context);
 		webAppContext.setBaseResource(baseResources());
 		webAppContext.setLogUrlOnStart(true);
 		webAppContext.setServer(server);
 		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WAR couldn't start, don't swallow, but propagate!
 		server.setHandler(webAppContext);
 		
+		// webAppContext.setTempDirectory(...);
+		
+		webAppContext.replaceConfiguration(MetaInfConfiguration.class, new MetaInfFolderConfiguration());
+		
+		// TODO Review - this will make EVERYTHING on the classpath be
+		// scanned for META-INF/resources and web-fragment.xml - great for dev!
+		// NOTE: Several patterns can be listed, separate by comma
+		webAppContext.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, ".*");
+		
 		// No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
 		server.setStopAtShutdown(true);
 		
-		// webAppContext.setTempDirectory(...);
-
 		server.start();
 		
 		if (!webAppContext.isAvailable() || webAppContext.isFailed() || !webAppContext.isRunning() || !webAppContext.isStarted() 
@@ -101,13 +109,13 @@ public class ServerLauncher {
 		}
 	}
 
+	
 	public void stopServer() throws Exception {
 		webAppContext.stop();
 		webAppContext = null;
 		server.stop();
 		server = null;
 	}
-	
 	
 	private ResourceCollection baseResources() throws IOException, MalformedURLException {
 		final List<Resource> webResourceModules = new LinkedList<Resource>();
