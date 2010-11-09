@@ -1,14 +1,15 @@
 package ch.vorburger.modudemo.core.web;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.bio.SocketConnector;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.webapp.WebInfConfiguration;
+import org.apache.catalina.Server;
+import org.apache.catalina.core.AprLifecycleListener;
+import org.apache.catalina.core.StandardServer;
+import org.apache.catalina.startup.Tomcat;
 import org.junit.Test;
 
 /**
- * ServerLauncher Test.
+ * Tomcat embedding, instead of Jetty.
+ * 
+ * @see http://www.copperykeenclaws.com/embedding-tomcat-7/
  * 
  * @author Michael Vorburger
  */
@@ -20,40 +21,29 @@ public class SomethingWebTest {
 	public void test() throws Exception {
 		startServer();
 
+		SimplisticWebTester.assertPageContains("webapp-filebased.txt", "Duh");
 		SimplisticWebTester.assertPageContains("index.txt", "Static Hello World");
 		SimplisticWebTester.assertPageContains("SomeServlet", "SomeServlet!");
-		
+
 		server.stop();
 	}
 
 	private void startServer() throws Exception {
-		server = new Server();
+		String appBase = "src/main/webapp"; // TODO ???
+		
+		Tomcat tomcat = new Tomcat();
+		tomcat.setPort(8080);
 
-		final SocketConnector connector = new SocketConnector();
-		connector.setPort(8080);
-		connector.setMaxIdleTime(1000 * 60 * 60);
-		connector.setSoLingerTime(-1);
-		server.setConnectors(new Connector[] { connector });
-		
-		WebAppContext webAppContext = new WebAppContext(".", "/theapp");
-		webAppContext.setLogUrlOnStart(true);
-		// TODO webAppContext.setParentLoaderPriority(false); ???
-		// webAppContext.setCompactPath(true);
-		webAppContext.setServer(server);
-		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WAR couldn't start, don't swallow, but propagate!
-		server.setHandler(webAppContext);
-		
-		// webAppContext.setTempDirectory(...);
-		
-		// TODO Review - this will make EVERYTHING on the classpath be
-		// scanned for META-INF/resources and web-fragment.xml - great for dev!
-		// NOTE: Several patterns can be listed, separate by comma
-		webAppContext.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, ".*");
-		
-		// No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
-		server.setStopAtShutdown(true);
-		
-		server.start();	
+		tomcat.setBaseDir("."); // ???
+		tomcat.getHost().setAppBase("."); // TODO ???
+
+		StandardServer server = (StandardServer) tomcat.getServer();
+		AprLifecycleListener listener = new AprLifecycleListener();
+		server.addLifecycleListener(listener);
+
+		tomcat.addWebapp("/theapp", appBase);
+		tomcat.start();
+		// tomcat.getServer().await();
 	}
 
 }

@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<jetty.version>8.0.0.M1</jetty.version>
+		<tomcat.version>7.0.4</tomcat.version>
 	</properties>
 
 	<dependencies>
@@ -25,20 +25,31 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<!-- Alternative to jetty-webapp is jetty-plus, which comes with JTA & 
-				JNDI -->
-			<artifactId>jetty-webapp</artifactId>
-			<version>${jetty.version}</version>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>${tomcat.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-util</artifactId>
-			<version>${jetty.version}</version>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>${tomcat.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jasper</artifactId>
+			<version>${tomcat.version}</version>
+			<scope>test</scope>
+			<!-- TODO Fix JSP! -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.jdt.core.compiler</groupId>
+					<artifactId>ecj</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<!-- NOTE: To avoid conflict with hamcrest, JUnit (no!)-DEP must be used -->
