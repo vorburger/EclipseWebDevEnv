@@ -2,9 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ch.vorburger.demo</groupId>
-	<artifactId>webCore</artifactId>
-	<!-- TODO <packaging>war</packaging> -->
+	<groupId>ch.vorburger.modudemo</groupId>
+	<artifactId>core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
@@ -14,98 +13,31 @@
 		<relativePath>../ch.vorburger.modudemo/pom.xml</relativePath>
 	</parent>
 
-	<properties>
-		<jetty.version>8.0.0.M1</jetty.version>
-	</properties>
-
 	<dependencies>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<!-- Alternative to jetty-webapp is jetty-plus, which comes with JTA & 
-				JNDI, not needed for MIFOS -->
-			<artifactId>jetty-webapp</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-util</artifactId>
-			<version>${jetty.version}</version>
-		</dependency>
-
-		<!-- NOTE: JSP support in an embedded Eclipse Jetty is not well documented, 
-			but this version appears to be the latest (research done by Michael Vorburger 
-			on April 24 2010), see e.g. http://blogs.webtide.com/janb/2006/08/15/1155672985940.html 
-			and others, and it works. -->
-		<dependency>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jsp-2.1-glassfish</artifactId>
-			<version>2.1.v20100127</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.vorburger.demo</groupId>
-			<artifactId>webTestUtils</artifactId>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>testutils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<!-- NO <addClasspath>true</addClasspath> -->
-							<mainClass>ch.vorburger.demo.server.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
-				  <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-				<configuration>
-					<descriptor>src/main/assembly/server.xml</descriptor>
-					<!-- <descriptor>src/main/assembly/myjar.xml</descriptor>  -->
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

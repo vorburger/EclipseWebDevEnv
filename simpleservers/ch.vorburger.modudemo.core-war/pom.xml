@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ch.vorburger.modudemo</groupId>
+	<artifactId>core-war</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<parent>
+		<artifactId>modudemo-parent</artifactId>
+		<groupId>ch.vorburger.modudemo</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../ch.vorburger.modudemo/pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>core-web</artifactId>
+			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.vorburger.modudemo</groupId>
+					<artifactId>server</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+<!-- TODO Test this, and remove src/main/webapp/WEB-INF/web.xml if it works.  Test in Jetty 7 full-blown, and Tomcat 7.0	
+	  <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1-beta-1</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+      </plugins>
+ -->      
+</project>

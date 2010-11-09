@@ -1,48 +1,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>ch.vorburger.modudemo</groupId>
 	<artifactId>modudemo-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-	<modules>
-		<module>ch.vorburger.modudemo.testutils/pom.xml</module>
-		<module>ch.vorburger.modudemo.core/pom.xml</module>
-		<module>ch.vorburger.modudemo.core-ui/pom.xml</module>
-		<module>ch.vorburger.modudemo.ext1/pom.xml</module>
-	</modules>
 
 	<organization>
 		<name>Michael Vorburger</name>
 		<url>http://www.vorburger.ch</url>
 	</organization>
 
+	<modules>
+		<module>ch.vorburger.modudemo.testutils/pom.xml</module>
+		<module>ch.vorburger.modudemo.server/pom.xml</module>
+		<module>ch.vorburger.modudemo.core/pom.xml</module>
+		<module>ch.vorburger.modudemo.core-web/pom.xml</module>
+		<!-- Does not work yet: <module>ch.vorburger.modudemo.server-assembly/pom.xml</module>  -->
+		<!-- <module>ch.vorburger.modudemo.war/pom.xml</module> -->
+		<!-- <module>ch.vorburger.modudemo.ext1/pom.xml</module> -->
+	</modules>
+
 	<properties>
-		<!-- See pom.xml.readme.txt; by default, build dir is CLI Maven's 'target' directory -->
+		<!-- See pom.xml.readme.txt; by default, build dir is CLI Maven's 'target' 
+			directory -->
 		<varying.target.dir>target</varying.target.dir>
 	</properties>
 
 	<build>
 		<directory>${basedir}/${varying.target.dir}</directory>
 
-		<!-- Treating src/main/webapp like normal resources, for now.
-			 ToBeClarified; if no WAR is actually produced, then webapp might as well just go into src/main/resources  -->
+		<!-- Treating src/main/webapp like normal resources, for now. ToBeClarified; 
+			if no WAR is actually produced, then webapp might as well just go into src/main/resources -->
 		<resources>
 			<resource>
 				<directory>src/main/webapp</directory>
 			</resource>
+			<!-- TODO Review if I really have to keep this.. -->
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
 		</resources>
-		<!-- TODO - remove? This is required so that *WebTest JUnit have web artefacts on the 
-			classpath, for the classpath-based in-process Jetty for the tests.
-			If no WAR is actually produced, and src/main/webapp goes into 
-			src/main/resources, then this would not be needed.
-		<testResources>
-			<testResource>
-				
-			</testResource>
-		</testResources>
-		 -->
+		<!-- TODO - remove? This is required so that *WebTest JUnit have web artefacts 
+			on the classpath, for the classpath-based in-process Jetty for the tests. 
+			If no WAR is actually produced, and src/main/webapp goes into src/main/resources, 
+			then this would not be needed. <testResources> <testResource> </testResource> 
+			</testResources> -->
 
 		<plugins>
 			<plugin>
@@ -67,8 +71,8 @@
 				</property>
 			</activation>
 			<properties>
-				<!-- See pom.xml.readme.txt; override in case we're running inside Eclipse. This directory HAS 
-					TO MATCH what is in an Eclipse project's .classpath -->
+				<!-- See pom.xml.readme.txt; override in case we're running inside Eclipse. 
+					This directory HAS TO MATCH what is in an Eclipse project's .classpath -->
 				<varying.target.dir>target-eclipse</varying.target.dir>
 			</properties>
 		</profile>
@@ -112,6 +116,41 @@
 		</profile>
 	</profiles>
 
+	<dependencyManagement>
+		<!-- External dependencies used by several modules (version should be here only, never in modules)-->
+		<dependencies>
+			<dependency>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>3.0.20100224</version>
+			</dependency>
+			
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<repositories>
 		<repository>
 			<id>oss.sonatype.org</id>
@@ -125,4 +164,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
 </project>

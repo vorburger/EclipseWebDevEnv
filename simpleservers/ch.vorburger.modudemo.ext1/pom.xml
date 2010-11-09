@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>ch.vorburger.demo</groupId>
-	<artifactId>webExt</artifactId>
+	<groupId>ch.vorburger.modudemo</groupId>
+	<artifactId>ext1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<parent>
@@ -15,14 +15,14 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>ch.vorburger.demo</groupId>
-			<artifactId>webCore</artifactId>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>core-web</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	
 		<dependency>
-			<groupId>ch.vorburger.demo</groupId>
-			<artifactId>webTestUtils</artifactId>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>testutils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>test</scope>
@@ -31,33 +31,10 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 	
-	<organization>
-		<name>Michael Vorburger</name>
-		<url>http://www.vorburger.ch</url>
-	</organization>
 	<build>
-		<finalName>web-ext</finalName>
+		<finalName>ext1</finalName>
 	</build>
 </project>

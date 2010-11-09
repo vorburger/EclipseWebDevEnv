@@ -1,0 +1,42 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
+
+	<id>server</id>
+
+	<formats>
+		<format>zip</format>
+	</formats>
+
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<outputDirectory></outputDirectory>
+			<directory>src/main/assembly/server</directory>
+			<excludes>
+				<exclude>**/.EMPTY</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<outputDirectory></outputDirectory>
+			<directory>${basedir}/..</directory>
+			<includes>
+				<include>LICENSE*</include>
+				<include>INSTALL*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+	<files>
+	</files>
+
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+			<scope>compile</scope>
+		</dependencySet>
+	</dependencySets>
+
+</assembly>

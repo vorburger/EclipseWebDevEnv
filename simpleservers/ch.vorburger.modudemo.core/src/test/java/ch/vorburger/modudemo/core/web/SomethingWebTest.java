@@ -2,7 +2,7 @@ package ch.vorburger.modudemo.core.web;
 
 import org.junit.Test;
 
-import ch.vorburger.demo.server.ServerLauncher;
+import ch.vorburger.modudemo.server.ServerLauncher;
 import ch.vorburger.modudemo.testutils.SimplisticWebTester;
 
 /**
