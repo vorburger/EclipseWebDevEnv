@@ -22,7 +22,6 @@ package ch.vorburger.modudemo.server;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -76,13 +75,13 @@ public class ServerLauncher {
 		server.setConnectors(new Connector[] { connector });
 		
 		webAppContext = new WebContextWithExtraConfigurations(null, "/" + context);
-		ResourceCollection baseResources = baseResources();
+		final ResourceCollection baseResources = baseResources();
 		if (baseResources != null) {
 			// This is if a web.xml and/or some .web were found
 			webAppContext.setBaseResource(baseResources);
 		} else {
 			// This is if there is no web.xml (and .web), only META-INF/resources & web-fragment.xml
-			File tempFileDir = File.createTempFile("jetty-empty-context-for-" + context + "__", Long.toString(System.nanoTime()));
+			final File tempFileDir = File.createTempFile("jetty-empty-context-for-" + context + "__", Long.toString(System.nanoTime()));
 			tempFileDir.delete();
 			tempFileDir.mkdir();
 			webAppContext.setBaseResource(Resource.newResource(tempFileDir.toURI()));
@@ -98,11 +97,13 @@ public class ServerLauncher {
 		
 		webAppContext.replaceConfiguration(MetaInfConfiguration.class, new MetaInfFolderConfiguration());
 		webAppContext.replaceConfiguration(FragmentConfiguration.class, new FragmentFolderConfiguration());
+		webAppContext.replaceConfiguration(WebInfConfiguration.class, new WebInfFolderExtendedConfiguration());
 		
 		// TODO Review - this will make EVERYTHING on the classpath be
 		// scanned for META-INF/resources and web-fragment.xml - great for dev!
 		// NOTE: Several patterns can be listed, separate by comma
 		webAppContext.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, ".*");
+		webAppContext.setAttribute(WebInfConfiguration.WEBINF_JAR_PATTERN, ".*");
 		
 		// No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
 		server.setStopAtShutdown(true);
@@ -134,7 +135,7 @@ public class ServerLauncher {
 	
 	private ResourceCollection baseResources() throws IOException, MalformedURLException {
 		final List<Resource> webResourceModules = new LinkedList<Resource>();
-		URL webXml = webXmlUrl();
+		final URL webXml = webXmlUrl();
 		if (webXml != null) {
 			webResourceModules.add(Util.chop(webXml, WEB_INF_WEB_XML));
 		}
