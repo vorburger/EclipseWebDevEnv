@@ -87,7 +87,7 @@ public class ServerLauncher {
 			webAppContext.setBaseResource(Resource.newResource(tempFileDir.toURI()));
 		}
 		webAppContext.setLogUrlOnStart(true);
-		// TODO webAppContext.setParentLoaderPriority(false); ???
+		// webAppContext.setParentLoaderPriority(true); // not needed...
 		// webAppContext.setCompactPath(true);
 		webAppContext.setServer(server);
 		webAppContext.getServletHandler().setStartWithUnavailable(false); // this is great: if WAR couldn't start, don't swallow, but propagate!
