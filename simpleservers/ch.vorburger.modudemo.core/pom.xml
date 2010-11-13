@@ -23,7 +23,6 @@
 		<dependency>
 			<groupId>ch.vorburger.modudemo</groupId>
 			<artifactId>server</artifactId>
-			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 
