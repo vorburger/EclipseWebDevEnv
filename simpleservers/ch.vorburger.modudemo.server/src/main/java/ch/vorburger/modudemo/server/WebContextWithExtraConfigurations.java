@@ -6,7 +6,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 /**
  * WebAppContext allowing to register additional Configurations.
  * 
- * @see TBD
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330189
  * 
  * @author Michael Vorburger
  */

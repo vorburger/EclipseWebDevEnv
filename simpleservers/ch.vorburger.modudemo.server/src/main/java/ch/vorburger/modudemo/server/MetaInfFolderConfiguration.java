@@ -19,7 +19,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * 
  * @see MetaInfConfiguration
  * 
- * @see TBD
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330189
  * 
  * @author Michael Vorburger
  */

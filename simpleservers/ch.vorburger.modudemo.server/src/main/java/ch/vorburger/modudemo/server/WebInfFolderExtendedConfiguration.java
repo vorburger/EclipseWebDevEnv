@@ -15,7 +15,7 @@ import org.eclipse.jetty.webapp.WebInfConfiguration;
  * 
  * @see WebInfConfiguration
  * 
- * @see TBD
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330189
  * 
  * @author Michael Vorburger
  */

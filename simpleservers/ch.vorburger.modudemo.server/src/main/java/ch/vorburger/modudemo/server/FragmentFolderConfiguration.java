@@ -15,7 +15,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * 
  * @see FragmentConfiguration
  * 
- * @see TBD
+ * @see https://bugs.eclipse.org/bugs/show_bug.cgi?id=330189
  * 
  * @author Michael Vorburger
  */
@@ -29,12 +29,12 @@ public class FragmentFolderConfiguration extends FragmentConfiguration {
 	@Override
     @SuppressWarnings("unchecked")
 	public void findWebFragments(WebAppContext context, MetaData metaData) throws Exception {
-		List<Resource> frags = (List<Resource>)context.getAttribute(FRAGMENT_RESOURCES);
+		final List<Resource> frags = (List<Resource>)context.getAttribute(FRAGMENT_RESOURCES);
         if (frags!=null)
         {
-            for (Resource frag : frags)
+            for (final Resource frag : frags)
             {
-            	Resource parentResource = Util.chop(frag.getURL(), "/META-INF/web-fragment.xml");
+            	final Resource parentResource = Util.chop(frag.getURL(), "/META-INF/web-fragment.xml");
                 metaData.addFragment(parentResource, frag);
             }
         }
