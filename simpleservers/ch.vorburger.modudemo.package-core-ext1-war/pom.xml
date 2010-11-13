@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ch.vorburger.modudemo</groupId>
-	<artifactId>core-war</artifactId>
+	<artifactId>package-core-ext1-war</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -17,21 +17,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>ch.vorburger.modudemo</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.version}</version>
+			<artifactId>core-war</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>ch.vorburger.modudemo</groupId>
+			<artifactId>ext1</artifactId>
 		</dependency>
 	</dependencies>
-
-<!-- TODO Test this, and remove src/main/webapp/WEB-INF/web.xml if it works.  Test in Jetty 7 full-blown, and Tomcat 7.0	
-	  <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1-beta-1</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-      </plugins>
- -->      
 </project>
