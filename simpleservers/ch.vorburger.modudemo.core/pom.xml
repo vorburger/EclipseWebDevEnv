@@ -39,25 +39,4 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				 <configuration>
-				 	<!-- <debugForkedProcess>true</debugForkedProcess>  -->
-				 	<!-- <argLine>-D.DEBUG=true</argLine> -->
-				 	
-				 	<!-- Jetty won't find our resources if we don't use EITHER 
-				 		<useSystemClassLoader>false</useSystemClassLoader> (which seems better),
-				 		 OR <forkMode>never</forkMode> :
-				 		 @see http://maven.apache.org/plugins/maven-surefire-plugin/examples/class-loading.html -->
-					<!-- <forkMode>never</forkMode> -->
-					<useSystemClassLoader>false</useSystemClassLoader>
-				 </configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-
 </project>

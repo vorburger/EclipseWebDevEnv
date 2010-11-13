@@ -16,6 +16,12 @@ public final class Util {
 			throw new IllegalArgumentException(base + " does not endWith " + toChop);
 		}
 		base = base.substring(0, base.length() - toChop.length());
+		
+		if (base.startsWith("jar:file:") && base.endsWith("!")) {
+			// If it was a jar:file:/.../.jar!/META-INF/web-fragment.xml, then 'jar:' & '!' has to go as well:
+			base = base.substring(0, base.length() - 1);
+			base = "file:" + base.substring("jar:file:".length());
+		}
 		return Resource.newResource(base);
 	}
 }
