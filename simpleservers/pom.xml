@@ -18,7 +18,7 @@
 		<module>ch.vorburger.modudemo.core/pom.xml</module>
 		<!-- <module>ch.vorburger.modudemo.core-web/pom.xml</module>  -->
 		
-		<!-- <module>ch.vorburger.modudemo.war/pom.xml</module> -->
+		<module>ch.vorburger.modudemo.core-war/pom.xml</module>
 		<!-- Does not work yet: <module>ch.vorburger.modudemo.server-assembly/pom.xml</module>  -->
 		
 		<module>ch.vorburger.modudemo.ext1/pom.xml</module>	

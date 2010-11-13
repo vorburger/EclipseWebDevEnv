@@ -1,5 +1,6 @@
 package ch.vorburger.modudemo.server;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jetty.util.resource.Resource;
@@ -21,8 +22,12 @@ import org.eclipse.jetty.webapp.WebInfConfiguration;
 public class WebInfFolderExtendedConfiguration extends WebInfConfiguration {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected List<Resource> findJars(WebAppContext context) throws Exception {
-		final List<Resource> r = super.findJars(context); // let original WebInfConfiguration do it's thing first
+		List<Resource> r = super.findJars(context); // let original WebInfConfiguration do it's thing first
+		if (r == null) {
+			r = new LinkedList<Resource>();
+		}
 		
 		final List<Resource> containerJarResources = (List<Resource>) context.getAttribute(CONTAINER_JAR_RESOURCES);  
 		r.addAll(containerJarResources);
