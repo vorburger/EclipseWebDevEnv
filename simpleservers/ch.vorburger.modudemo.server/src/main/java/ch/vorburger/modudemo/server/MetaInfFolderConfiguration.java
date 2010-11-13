@@ -26,12 +26,12 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class MetaInfFolderConfiguration extends MetaInfConfiguration {
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void preConfigure(final WebAppContext context) throws Exception {
 		super.preConfigure(context); // let original MetaInfConfiguration do it's thing first
 		
         final ArrayList<Resource> resources = new ArrayList<Resource>();
-        resources.addAll((List<Resource>)context.getAttribute(MetaInfConfiguration.CONTAINER_JAR_RESOURCES));
+        final List<Resource> containerJARResources = context.getMetaData().getOrderedContainerJars();
+		resources.addAll(containerJARResources);
 
         for (final Resource resource : resources) {
         	if (!resource.isDirectory()) {
