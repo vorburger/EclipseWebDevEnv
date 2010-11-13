@@ -1,4 +1,4 @@
-package ch.vorburger.demo.core.web;
+package ch.vorburger.demo.ext.web;
 
 import java.io.IOException;
 
@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class SomeServlet
  */
-public class SomeServlet extends HttpServlet {
+public class AnotherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-        
+       
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().println("SomeServlet!");
+		response.getWriter().println("AnotherServlet!");
 	}
 
 }

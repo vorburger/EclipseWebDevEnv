@@ -14,7 +14,8 @@ public class SomethingElseWebTest {
 
 		SimplisticWebTester.assertPageContains("secondo.txt", "Another static Hello World");
 		SimplisticWebTester.assertPageContains("secondo.jsp", "somethingElse");
-
+		SimplisticWebTester.assertPageContains("AnotherServlet", "AnotherServlet!");
+		
 		serverLauncher.stopServer();
 	}
 
