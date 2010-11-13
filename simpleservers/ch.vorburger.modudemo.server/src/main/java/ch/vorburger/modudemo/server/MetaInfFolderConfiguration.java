@@ -39,25 +39,29 @@ public class MetaInfFolderConfiguration extends MetaInfConfiguration {
         		continue;
         	}
         	
-        	final Resource metaInfResourcesResource = resource.addPath("META-INF/resources/");
-			if (metaInfResourcesResource.exists() && context.isConfigurationDiscovered()) {
-				addResource(context, METAINF_RESOURCES, metaInfResourcesResource);
-			}
-
-        	final Resource webFragmentResource = resource.addPath("META-INF/web-fragment.xml");
-			if (metaInfResourcesResource.exists() && context.isConfigurationDiscovered()) {
-                addResource(context, METAINF_FRAGMENTS, webFragmentResource);     
-			}
-
+        	{
+	        	final Resource metaInfResourcesResource = resource.addPath("META-INF/resources/");
+				if (metaInfResourcesResource.exists() && context.isConfigurationDiscovered()) {
+					addResource(context, METAINF_RESOURCES, metaInfResourcesResource);
+				}
+        	}
+        	
+        	{
+	        	final Resource webFragmentResource = resource.addPath("META-INF/web-fragment.xml");
+				if (webFragmentResource.exists() && context.isConfigurationDiscovered()) {
+	                addResource(context, METAINF_FRAGMENTS, webFragmentResource);     
+				}
+        	}
+        	
 			// TODO TEST "*.tld" handling...
-			File dir = resource.getFile();
-			File[] tldFiles = dir.listFiles(new FilenameFilter() {
+			final File dir = resource.getFile();
+			final File[] tldFiles = dir.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File dir, String name) {
 					return name.toLowerCase().endsWith(".tld");
 				}
 			});
-			for (File tldFile : tldFiles) {
+			for (final File tldFile : tldFiles) {
                 addResource(context, METAINF_TLDS, Resource.newResource(tldFile.toURI()));     
 			}
 		}
@@ -73,7 +77,7 @@ public class MetaInfFolderConfiguration extends MetaInfConfiguration {
 	 */
 	@Override
 	protected void processEntry(WebAppContext context, URI jarUri, JarEntry entry) {
-		String name = entry.getName();
+		final String name = entry.getName();
 
 		if (!name.startsWith("META-INF/"))
 			return;
@@ -84,12 +88,12 @@ public class MetaInfFolderConfiguration extends MetaInfConfiguration {
 			} else if (name.equals("META-INF/resources/") && context.isConfigurationDiscovered()) {
 				addResource(context, METAINF_RESOURCES, Resource.newResource("jar:" + jarUri + "!/META-INF/resources"));
 			} else {
-				String lcname = name.toLowerCase();
+				final String lcname = name.toLowerCase();
 				if (lcname.endsWith(".tld")) {
 					addResource(context, METAINF_TLDS, Resource.newResource("jar:" + jarUri + "!/" + name));
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			context.getServletContext().log(jarUri + "!/" + name, e);
 		}
 	}

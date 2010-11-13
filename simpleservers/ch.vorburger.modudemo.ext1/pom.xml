@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>ch.vorburger.modudemo</groupId>
-			<artifactId>core-web</artifactId>
+			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	
