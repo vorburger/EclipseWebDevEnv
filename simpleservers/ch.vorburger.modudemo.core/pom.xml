@@ -33,7 +33,6 @@
 		<dependency>
 			<groupId>ch.vorburger.modudemo</groupId>
 			<artifactId>testutils</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>

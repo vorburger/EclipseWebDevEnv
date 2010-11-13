@@ -16,12 +16,12 @@
 		<module>ch.vorburger.modudemo.testutils/pom.xml</module>
 		<module>ch.vorburger.modudemo.server/pom.xml</module>
 		<module>ch.vorburger.modudemo.core/pom.xml</module>
-		<!-- <module>ch.vorburger.modudemo.core-web/pom.xml</module>  -->
-		
+		<!-- <module>ch.vorburger.modudemo.core-web/pom.xml</module> -->
+
 		<module>ch.vorburger.modudemo.core-war/pom.xml</module>
-		<!-- Does not work yet: <module>ch.vorburger.modudemo.server-assembly/pom.xml</module>  -->
-		
-		<module>ch.vorburger.modudemo.ext1/pom.xml</module>	
+		<!-- Does not work yet: <module>ch.vorburger.modudemo.server-assembly/pom.xml</module> -->
+
+		<module>ch.vorburger.modudemo.ext1/pom.xml</module>
 	</modules>
 
 	<properties>
@@ -42,23 +42,21 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				 <configuration>
-				 	<!-- <debugForkedProcess>true</debugForkedProcess>  -->
-				 	<!-- <argLine>-D.DEBUG=true</argLine> -->
-				 	
-				 	<!-- Jetty won't find our resources if we don't use EITHER 
-				 		<useSystemClassLoader>false</useSystemClassLoader> (which seems better),
-				 		 OR <forkMode>never</forkMode> :
-				 		 @see http://maven.apache.org/plugins/maven-surefire-plugin/examples/class-loading.html -->
+				<configuration>
+					<!-- <debugForkedProcess>true</debugForkedProcess> -->
+					<!-- <argLine>-D.DEBUG=true</argLine> -->
+
+					<!-- Jetty won't find our resources if we don't use EITHER <useSystemClassLoader>false</useSystemClassLoader> 
+						(which seems better), OR <forkMode>never</forkMode> : @see http://maven.apache.org/plugins/maven-surefire-plugin/examples/class-loading.html -->
 					<!-- <forkMode>never</forkMode> -->
 					<useSystemClassLoader>false</useSystemClassLoader>
-				 </configuration>
+				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
@@ -119,37 +117,49 @@
 	</profiles>
 
 	<dependencyManagement>
-		<!-- External dependencies used by several modules (version should be here only, never in modules)-->
 		<dependencies>
+			<dependency>
+				<groupId>ch.vorburger.modudemo</groupId>
+				<artifactId>testutils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.vorburger.modudemo</groupId>
+				<artifactId>core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- External dependencies used by several modules (version should be 
+				here only, never in modules) -->
 			<dependency>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>3.0.20100224</version>
 			</dependency>
-			
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jdmk</groupId>
-					<artifactId>jmxtools</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.sun.jmx</groupId>
-					<artifactId>jmxri</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.15</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.jms</groupId>
+						<artifactId>jms</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jdmk</groupId>
+						<artifactId>jmxtools</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jmx</groupId>
+						<artifactId>jmxri</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -166,5 +176,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 </project>
