@@ -20,6 +20,8 @@ public class SomethingWebTest {
 		SimplisticWebTester.assertPageContains("index.txt", "Static Hello World");
 		SimplisticWebTester.assertPageContains("index.jsp", "Bla");
 		SimplisticWebTester.assertPageContains("index.jsp", "something");
+		SimplisticWebTester.assertPageContains("index.jsp", "text from std tablib");
+		SimplisticWebTester.assertPageContains("index.jsp", "I am a button");
 		SimplisticWebTester.assertPageContains("SomeServlet", "SomeServlet!");
 
 		serverLauncher.stopServer();
