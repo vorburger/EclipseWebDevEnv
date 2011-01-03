@@ -10,7 +10,7 @@
 		<groupId>ch.vorburger.modudemo</groupId>
 		<artifactId>modudemo-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../ch.vorburger.modudemo/pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
