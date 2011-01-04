@@ -28,6 +28,8 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
@@ -61,7 +63,6 @@ public class ServerLauncher {
 		this.context = "theapp";
 	}
 
-
 	public void startServer() throws Exception {
 		if (server != null) {
 			throw new IllegalStateException("HTTP Server already running, stop it first before starting it again");
@@ -74,7 +75,7 @@ public class ServerLauncher {
 		connector.setSoLingerTime(-1);
 		server.setConnectors(new Connector[] { connector });
 		
-		webAppContext = new WebContextWithExtraConfigurations(null, "/" + context);
+		webAppContext = new WebContextWithServletContextResourceTrick(null, "/" + context);
 		final ResourceCollection baseResources = baseResources();
 		if (baseResources != null) {
 			// This is if a web.xml and/or some .web were found
@@ -124,13 +125,16 @@ public class ServerLauncher {
 			}
 		}
 	}
-
 	
 	public void stopServer() throws Exception {
 		webAppContext.stop();
 		webAppContext = null;
 		server.stop();
 		server = null;
+	}
+
+	public ServletContext getServletContext() {
+		return webAppContext.getServletContext();
 	}
 	
 	private ResourceCollection baseResources() throws IOException, MalformedURLException {

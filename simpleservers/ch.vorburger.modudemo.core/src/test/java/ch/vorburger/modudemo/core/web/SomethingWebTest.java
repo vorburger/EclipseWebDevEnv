@@ -13,7 +13,7 @@ import ch.vorburger.modudemo.testutils.SimplisticWebTester;
 public class SomethingWebTest {
 
 	@Test
-	public void testSomethingViaIndexJSP() throws Exception {
+	public void testSomeServletAndIndexJSP() throws Exception {
 		final ServerLauncher serverLauncher = new ServerLauncher();
 		serverLauncher.startServer();
 
@@ -26,7 +26,5 @@ public class SomethingWebTest {
 
 		serverLauncher.stopServer();
 	}
-
-	// TODO testSomeServlet factored out
 
 }

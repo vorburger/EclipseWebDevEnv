@@ -12,10 +12,10 @@ import org.eclipse.jetty.webapp.WebAppContext;
  */
 public class WebContextWithExtraConfigurations extends WebAppContext {
 
-	public WebContextWithExtraConfigurations(String webApp,String contextPath) {
+	public WebContextWithExtraConfigurations(String webApp, String contextPath) {
 		super(webApp, contextPath);
 	}
-
+	
 	public <T extends Configuration> void replaceConfiguration(Class<T> toReplace, Configuration newConfiguration) throws Exception {
 		loadConfigurations(); // Force loading of default configurations
 		final Configuration[] configs = getConfigurations();
